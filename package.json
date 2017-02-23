@@ -1,0 +1,11 @@
+{
+  "name": "chewie-hook-thirdparty-auth-provider",
+  "author": "test",
+  "version": "0.0.1",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.14.1",
+    "fb": "^1.1.1",
+    "lodash": "^4.17.4"
+  }
+}
