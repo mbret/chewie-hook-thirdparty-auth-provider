@@ -1,0 +1,4 @@
+.chewie
+node_modules
+npm-debug*.log
+.system
