@@ -16,7 +16,12 @@ chewie.start({
         hooks: {
             "chewie-hook-thirdparty-auth-provider": {
                 // required because of symlink
-                modulePath: __dirname + "/.."
+                modulePath: __dirname + "/..",
+                config: {
+                    facebook: {
+                        appId: "105360643322915"
+                    }
+                }
             }
         }
     }

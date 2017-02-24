@@ -33,8 +33,8 @@ class AuthServiceTokenGenerator extends EventEmitter {
         this.system.on("hook:shared-server-api:initialized", function() {
             let sharedServerApi = self.system.hooks["shared-server-api"];
             require(__dirname + "/lib/partial-server-routes")(self, router);
-            sharedServerApi.app.use("/hooks/auth-services-token-generator", express.static(__dirname + "/lib/public"));
-            sharedServerApi.app.use('/hooks/auth-services-token-generator', router);
+            sharedServerApi.app.use("/hooks/" + packageInfo.name, express.static(__dirname + "/lib/public"));
+            sharedServerApi.app.use("/hooks/" + packageInfo.name, router);
         });
 
         // Run watchers
