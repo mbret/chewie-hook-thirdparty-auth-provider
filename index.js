@@ -1,4 +1,5 @@
 const EventEmitter = require("events");
+const packageInfo = require("./package.json");
 let _ = require("lodash");
 let router = require('express').Router();
 let FB = require('fb');
@@ -6,7 +7,7 @@ let debug = require('debug');
 let express = require("express");
 let STORAGE_KEY = "saved-auth";
 let STORAGE_KEY_FACEBOOK = STORAGE_KEY + ":facebook";
-let DEBUG_KEY = "chewie:hooks:auth-services-token-generator";
+let DEBUG_KEY = "chewie:hooks:" + packageInfo.name;
 
 /**
  * class AuthServiceTokenGenerator
@@ -22,7 +23,7 @@ class AuthServiceTokenGenerator extends EventEmitter {
         this.system = system;
         this.config = config;
         this.helper = helper;
-        this.logger = this.system.logger.getLogger('hooks:auth-services-token-generator');
+        this.logger = this.system.logger.getLogger("hooks:" + packageInfo.name);
     }
 
     initialize() {
@@ -31,8 +32,8 @@ class AuthServiceTokenGenerator extends EventEmitter {
         // Register partial web app and server routes
         this.system.on("hook:shared-server-api:initialized", function() {
             let sharedServerApi = self.system.hooks["shared-server-api"];
-            require(__dirname + "/partial-server-routes")(self, router);
-            sharedServerApi.app.use("/hooks/auth-services-token-generator", express.static(__dirname + "/public"));
+            require(__dirname + "/lib/partial-server-routes")(self, router);
+            sharedServerApi.app.use("/hooks/auth-services-token-generator", express.static(__dirname + "/lib/public"));
             sharedServerApi.app.use('/hooks/auth-services-token-generator', router);
         });
 
