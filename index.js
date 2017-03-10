@@ -18,9 +18,9 @@ let DEBUG_KEY = "chewie:hooks:" + packageInfo.name;
  */
 class AuthServiceTokenGenerator extends EventEmitter {
 
-    constructor(system, config, helper) {
+    constructor(chewie, config, helper) {
         super();
-        this.system = system;
+        this.system = chewie;
         this.config = config;
         this.helper = helper;
         this.logger = this.system.logger.getLogger("hooks:" + packageInfo.name);
