@@ -14,6 +14,9 @@ chewie.start({
             appDataPath: "./.chewie"
         },
         hooks: {
+            // "client-web-server": false,
+            "scenarios": false,
+            "plugins": false,
             "chewie-hook-thirdparty-auth-provider": {
                 // required because of symlink
                 modulePath: __dirname + "/..",

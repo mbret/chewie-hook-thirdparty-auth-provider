@@ -1,9 +1,0 @@
-{
-  "scripts": {
-    "start": "node index.js",
-    "start:debug": "cross-env DEBUG=chewie* node index.js"
-  },
-  "dependencies": {
-    "cross-env": "^3.1.4"
-  }
-}

@@ -1,0 +1,52 @@
+<div class="alert alert-warning fade in" role="alert" ng-show="googleSdkLoading">
+    Google SDK is loading...
+</div>
+
+<div class="alert alert-info fade in" role="alert">
+    <strong>In order to generate a token</strong>, you have to create a new project in <a href="https://console.cloud.google.com">https://console.cloud.google.com</a>.
+    (ex: "Chewie"). Once created you will be able to create a credentials to be used by Chewie. You will also need to enable some api depending of your needs.
+</div>
+
+<div class="alert alert-info fade in" role="alert">
+    - Your client id should looks like "143687074111-mesc8tu47laa0u59adfkiep68fvl1npt.apps.googleusercontent.com"<br>
+    - Example of scope for <a href="https://developers.google.com/gmail/api/auth/scopes">Gmail</a>. Separate your scopes by space!<br>
+    - The default redirect route used on server is {{CONFIG.defaultGoogleRedirectUri}}. If you use another replace it in form.
+</div>
+
+<div class="alert alert-warning fade in" role="alert">
+    In order to generate a valid token the current chewie web app will automatically have access to your account and registered
+    as "granted access app" in your accounts settings. Of course the hook did not save the token. This is not a problem but you better be aware. This is how oauth works.
+</div>
+
+<div uib-alert ng-repeat="alert in alerts" class="alert alert-warning fade in" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
+
+<form name="form" ng-submit="submit(form)">
+    <label>
+        Client ID
+        <input type="text" name="clientId" ng-model="data.clientId" required>
+    </label><br>
+    <label>
+        Client secret
+        <input type="text" name="clientSecret" ng-model="data.clientSecret" required>
+    </label><br>
+    <label>
+        Redirect uri
+        <input type="text" name="redirectUri" ng-model="data.redirectUri" required>
+    </label><br>
+    <label>
+        Scopes
+        <textarea type="text" name="scopes" ng-model="data.scopes" required></textarea>
+    </label><br>
+    <p>
+        <button type="submit" ng-disabled="googleSdkLoading">Generate</button>
+    </p>
+</form>
+
+<div class="alert alert-success fade in" role="alert" ng-show="tokenGenerated">
+    Here is your generated access:<br>
+    - access_token: {{tokenGenerated.access_token}}<br>
+    - expiry_date: {{tokenGenerated.expiry_date}}<br>
+    - id_token: {{tokenGenerated.id_token}}<br>
+    - token_type: {{tokenGenerated.token_type}}<br>
+    - refresh_token: {{tokenGenerated.refresh_token}}
+</div>

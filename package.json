@@ -6,6 +6,15 @@
   "dependencies": {
     "express": "^4.14.1",
     "fb": "^1.1.1",
+    "google-auth-library": "^0.10.0",
+    "googleapis": "^18.0.0",
     "lodash": "^4.17.4"
+  },
+  "scripts": {
+    "start": "node .dev/index.js",
+    "start:debug": "cross-env DEBUG=chewie* node .dev/index.js"
+  },
+  "devDependencies": {
+    "cross-env": "^3.1.4"
   }
 }

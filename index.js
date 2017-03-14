@@ -18,31 +18,39 @@ let DEBUG_KEY = "chewie:hooks:" + packageInfo.name;
  */
 class AuthServiceTokenGenerator extends EventEmitter {
 
+    /**
+     * @param {Object} chewie
+     * @param {Object} config
+     * @param {Object} helper
+     */
     constructor(chewie, config, helper) {
         super();
-        this.system = chewie;
+        this.chewie = chewie;
         this.config = config;
         this.helper = helper;
-        this.logger = this.system.logger.getLogger("hooks:" + packageInfo.name);
+        this.logger = this.chewie.logger.getLogger("hooks:" + packageInfo.name);
+        this.baseUrl = this.chewie.config.webServerUrl + "/hooks/" + packageInfo.name;
     }
 
+    /**
+     * @returns {Promise}
+     */
     initialize() {
         let self = this;
 
         // Register partial web app and server routes
-        this.system.on("hook:shared-server-api:initialized", function() {
-            let sharedServerApi = self.system.hooks["shared-server-api"];
+        this.chewie.on("hook:client-web-server:initialized", function() {
+            let clientWebServer = self.chewie.hooks["client-web-server"];
             require(__dirname + "/lib/partial-server-routes")(self, router);
-            sharedServerApi.app.use("/hooks/" + packageInfo.name, express.static(__dirname + "/lib/public"));
-            sharedServerApi.app.use("/hooks/" + packageInfo.name, router);
+            require(__dirname + "/lib/routes-google")(self, router);
+            clientWebServer.app.use("/hooks/" + packageInfo.name, express.static(__dirname + "/lib/public"));
+            clientWebServer.app.use("/hooks/" + packageInfo.name, router);
         });
 
         // Run watchers
-        this.system.on("ready", function() {
+        this.chewie.on("ready", function() {
             // display helpful info to user to console.
-            self.logger.info("The direct routes to retrieve access token are:" +
-                "\nFacebook: https://localhost:3002/hooks/auth-services-token-generator/auth/facebook" +
-                "\nGoogle: https://localhost:3002/hooks/auth-services-token-generator/auth/google");
+            self.logger.info("The direct routes to retrieve access token is %s", self.baseUrl);
 
             // check and refresh active tokens
             self.helper.getStorage(STORAGE_KEY_FACEBOOK)
