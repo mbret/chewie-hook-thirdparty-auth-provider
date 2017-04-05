@@ -39,8 +39,7 @@ class AuthServiceTokenGenerator extends EventEmitter {
         let self = this;
 
         // Register partial web app and server routes
-        this.chewie.on("hook:client-web-server:initialized", function() {
-            let clientWebServer = self.chewie.hooks["client-web-server"];
+        this.chewie.on("hook:client-web-server:initialized", function(clientWebServer) {
             require(__dirname + "/lib/partial-server-routes")(self, router);
             require(__dirname + "/lib/routes-google")(self, router);
             clientWebServer.app.use("/hooks/" + packageInfo.name, express.static(__dirname + "/lib/public"));
